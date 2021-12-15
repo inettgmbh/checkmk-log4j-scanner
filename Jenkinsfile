@@ -13,7 +13,7 @@ node {
 
     stage('build log4j-scanner') {
         git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
-            branch: env.BRANCH_NAME
+            branch: "${env.BRANCH_NAME}"
         def t_di = docker.build(
             "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
             "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
@@ -42,7 +42,7 @@ node {
         )
         docker.image(t_di.id).inside {
             git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
-                branch: env.BRANCH_NAME
+                branch: "${env.BRANCH_NAME}"
             dir('mkp') {
                 sh 'chmod +x build/mkp-pack build/update-version'
                 def containsTag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
@@ -79,7 +79,7 @@ node {
                 sh "pip install ${PYTHON_MKP_REPO}"
             }
             git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
-                branch: env.BRANCH_NAME
+                branch: "${env.BRANCH_NAME}"
             sh 'chmod +x build/mkp-pack build/update-version'
         }
         stage('Build') {
