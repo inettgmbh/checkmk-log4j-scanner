@@ -10,7 +10,8 @@ properties([
 
 node {
     def PYTHON_MKP_REPO = "git+https://github.com/inettgmbh/python-mkp.git@0.6"
-
+    def t_di_1
+    def t_di_2
     stage('build info') {
         sh "echo BRANCH_NAME=${env.BRANCH_NAME}"
     }
@@ -19,7 +20,7 @@ node {
         stage('build log4j-scanner') {
             git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git',
                 branch: "${env.BRANCH_NAME}"
-            def t_di = docker.build(
+            t_di_1 = docker.build(
                 "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
                 "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
                 "log4j-scanner"
@@ -39,7 +40,7 @@ node {
         }
 
         stage('package mkp') {
-            def t_di = docker.build(
+            t_di_2 = docker.build(
                 "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
                 "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
                 "--build-arg PYTHON_MKP_REPO=${PYTHON_MKP_REPO} " +
@@ -73,6 +74,10 @@ node {
             }
         }
     } finally {
-        cleanWs()
+        stage('Cleanup') {
+            cleanWs()
+            if(t_di_1) sh 'docker container rm ${t_di_1}'
+            if(t_di_2) sh 'docker container rm ${t_di_2}'
+        }
     }
 }

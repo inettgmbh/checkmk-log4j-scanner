@@ -1,51 +1,40 @@
 #!/usr/bin/env python3
-# -*- encoding: utf-8; py-indent-offset: 4 -*-
+# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021 inett GmbH
 # License: GNU General Public License v2
 # A file is subject to the terms and conditions defined in the file LICENSE,
 # which is part of this source code package.
 
-from cmk.gui.i18n import _
-from cmk.gui.plugins.wato import (
-    HostRulespec,
-    rulespec_registry,
-)
-from cmk.gui.cee.plugins.wato.agent_bakery.rulespecs.utils import (
-    RulespecGroupMonitoringAgentsAgentPlugins
-)
-from cmk.gui.valuespec import (
-    Alternative,
-    FixedValue,
+from .agent_based_api.v1 import (
+    register,
+    Service,
+    State,
+    Result,
 )
 
 
-def _valuespec_agent_config_log4j_scanner():
-    return Alternative(
-        title=_("log4j CVE-2021-44228 (Linux)"),
-        help=_(
-            "scan for CVE-2021-44228 (<tt>log4j_scanner</tt>)<br/>"
-            "<b>This plugin may result in massive agent outputs</b>"
-            ),
-        style='dropdown',
-        elements=[
-            FixedValue(
-                True,
-                title=_("Deploy plugin to scan for log4j"),
-                totext=_("(enabled)"),
-            ),
-            FixedValue(
-                None,
-                title=_("Do not deploy plugin to scan for log4j"),
-                totext=_("(disabled)"),
-            )
-        ],
-    )
+def log4j_scanner_discovery(section):
+    yield Service()
 
 
-rulespec_registry.register(
-    HostRulespec(
-        group=RulespecGroupMonitoringAgentsAgentPlugins,
-        name="agent_config:log4j_scanner",
-        valuespec=_valuespec_agent_config_log4j_scanner,
-    ))
+def log4j_scanner_checks(section):
+    i = 0
+    for l in section:
+        if l[0] == "[*]":
+            i += 1
+            yield Result(state=State.CRIT, summary=(' '.join(l[2:])))
+    t_state = (State.OK if (i == 0) else State.CRIT)
+    yield Result(state=t_state, summary=("%d vulnerabilities found" % i))
+
+
+register.agent_section(
+    name="log4j_scanner",
+)
+
+register.check_plugin(
+    name="log4j_scanner",
+    service_name="Scan for log4j CVE-2021-44228",
+    discovery_function=log4j_scanner_discovery,
+    check_function=log4j_scanner_checks,
+)
