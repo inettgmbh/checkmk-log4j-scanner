@@ -25,7 +25,7 @@ node {
                 "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
                 "log4j-scanner"
             )
-            docker.image(t_di.id).inside {
+            docker.image(t_di_1.id).inside {
                 git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git',
                     branch: "${env.BRANCH_NAME}"
                 dir('log4j-scanner') {
@@ -46,7 +46,7 @@ node {
                 "--build-arg PYTHON_MKP_REPO=${PYTHON_MKP_REPO} " +
                 "mkp"
             )
-            docker.image(t_di.id).inside {
+            docker.image(t_di_2.id).inside {
                 git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git',
                     branch: "${env.BRANCH_NAME}"
                 dir('mkp') {
