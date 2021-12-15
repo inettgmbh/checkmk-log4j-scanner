@@ -1,6 +1,6 @@
 FROM ghcr.io/graalvm/graalvm-ce:latest
 
-RUN yum install -y apache-maven
+RUN microdnf install -y apache-maven
 
 ARG USER_ID
 ARG GROUP_ID

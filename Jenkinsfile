@@ -12,6 +12,8 @@ node {
     def PYTHON_MKP_REPO = "git+https://github.com/inettgmbh/python-mkp.git@0.6"
 
     stage('build log4j-scanner') {
+        git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
+            branch: env.BRANCH_NAME
         def t_di = docker.build(
             "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
             "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
