@@ -76,8 +76,8 @@ node {
     } finally {
         stage('Cleanup') {
             cleanWs()
-            if(t_di_1) sh 'docker container rm ${t_di_1}'
-            if(t_di_2) sh 'docker container rm ${t_di_2}'
+            if(t_di_1) sh 'docker container rm ${t_di_1.id}'
+            if(t_di_2) sh 'docker container rm ${t_di_2.id}'
         }
     }
 }
