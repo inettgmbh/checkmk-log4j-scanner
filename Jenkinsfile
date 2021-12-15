@@ -17,7 +17,7 @@ node {
 
     try {
         stage('build log4j-scanner') {
-            git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
+            git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git',
                 branch: "${env.BRANCH_NAME}"
             def t_di = docker.build(
                 "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
@@ -25,7 +25,7 @@ node {
                 "log4j-scanner"
             )
             docker.image(t_di.id).inside {
-                git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
+                git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git',
                     branch: "${env.BRANCH_NAME}"
                 dir('log4j-scanner') {
                     sh "mvn clean package"
@@ -46,7 +46,7 @@ node {
                 "mkp"
             )
             docker.image(t_di.id).inside {
-                git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
+                git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git',
                     branch: "${env.BRANCH_NAME}"
                 dir('mkp') {
                     sh 'chmod +x build/mkp-pack build/update-version'
