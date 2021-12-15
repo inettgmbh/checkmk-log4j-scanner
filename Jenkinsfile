@@ -21,7 +21,7 @@ node {
         )
         docker.image(t_di.id).inside {
             git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
-                branch: env.BRANCH_NAME
+                branch: "${env.BRANCH_NAME}"
             dir('log4j-scanner') {
                 sh "mvn clean package"
             }
@@ -37,7 +37,7 @@ node {
         def t_di = docker.build(
             "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
             "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
-            "--build-arg PYTHON_MKP_REPO=git+https://github.com/inettgmbh/python-mkp.git@0.6 " +
+            "--build-arg PYTHON_MKP_REPO=${PYTHON_MKP_REPO} " +
             "mkp"
         )
         docker.image(t_di.id).inside {
@@ -65,38 +65,6 @@ node {
                 sh 'build/mkp-pack'
                 archiveArtifacts artifacts: '*.mkp', fingerprint: true
             }
-        }
-    }
-
-    def di = docker.image('debian:bullseye')
-    di.inside('-u root') {
-        stage('Prepare') {
-            sh 'apt-get update'
-            sh 'apt-get upgrade -yV'
-            sh 'apt-get install -yV git python3 python3-pip'
-            sh 'python3 -m pip install --upgrade pip'
-            withEnv(myenv) {
-                sh "pip install ${PYTHON_MKP_REPO}"
-            }
-            git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
-                branch: "${env.BRANCH_NAME}"
-            sh 'chmod +x build/mkp-pack build/update-version'
-        }
-        stage('Build') {
-            def containsTag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
-            def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-
-            def releaseVersion
-            if (containsTag != "") {
-                releaseVersion = containsTag
-            } else {
-                releaseVersion = shortCommit
-            }
-            withEnv(["RELEASE_VERSION=${releaseVersion}"]) {
-                sh 'build/update-version ${RELEASE_VERSION}'
-            }
-            sh 'build/mkp-pack'
-            archiveArtifacts artifacts: '*.mkp', fingerprint: true
         }
     }
 }
