@@ -1,6 +1,6 @@
 {'author': 'Maximilian Hill <mhill@inett.de>',
  'description': 'https://www.inett.de/it-loesungen/checkmk',
- 'download_url': 'https://github.com/inettgmbh/checkmk-proxmox_backup_server/releases/latest',
+ 'download_url': 'https://github.com/inettgmbh/checkmk-log4j-scanner/releases/latest',
  'files': {'agent_based': ['log4j_scanner.py'],
            'agents': ['plugins/log4j_scanner'],
            'lib': ['check_mk/base/cee/plugins/bakery/log4j_scanner.py'],
