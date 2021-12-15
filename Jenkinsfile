@@ -32,8 +32,8 @@ node {
                 }
                 dir('log4j-scanner/target') {
                     archiveArtifacts artifacts: '*.jar', fingerprint: true
-                    archiveArtifacts artifacts: 'log4j-scanner', fingerprint: true
-                    stash includes: 'log4j-scanner', 'log4j-scanner'
+                    archiveArtifacts artifacts: 'log4j_scanner', fingerprint: true
+                    stash includes: 'log4j_scanner', 'log4j_scanner'
                 }
             }
         }
@@ -55,7 +55,7 @@ node {
 
                     sh 'mkdir -pv agents/plugins'
                     dir('agents/plugins') {
-                        unstash 'log4j-scanner'
+                        unstash 'log4j_scanner'
                     }
 
                     def releaseVersion
