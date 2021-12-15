@@ -78,8 +78,8 @@ node {
             withEnv(myenv) {
                 sh "pip install ${PYTHON_MKP_REPO}"
             }
-            git url: 'https://github.com/inettgmbh/checkmk-smart.git',
-                branch: 'main'
+            git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
+                branch: env.BRANCH_NAME
             sh 'chmod +x build/mkp-pack build/update-version'
         }
         stage('Build') {
