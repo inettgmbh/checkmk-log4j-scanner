@@ -12,18 +12,13 @@ from .agent_based_api.v1 import (
     State,
     Result,
 )
-import re
-
-proxmox_bs_subsection_start = re.compile("^===")
-proxmox_bs_subsection_int = re.compile("===.*$")
-proxmox_bs_subsection_end = re.compile("^=")
 
 
-def log4j_scanner_discovery(_section):
+def log4j_scanner_discovery(section):
     yield Service()
 
 
-def log4j_scanner_checks(params, section):
+def log4j_scanner_checks(section):
     i = 0
     for l in section:
         if l[0] == "[*]":
@@ -33,10 +28,13 @@ def log4j_scanner_checks(params, section):
     yield Result(state=t_state, summary=("%d vulnerabilities found" % i))
 
 
+register.agent_section(
+    name="log4j_scanner",
+)
+
 register.check_plugin(
     name="log4j_scanner",
-    sections=["log4j_scanner"],
+    service_name="Scan for log4j CVE-2021-44228",
     discovery_function=log4j_scanner_discovery,
     check_function=log4j_scanner_checks,
 )
-
