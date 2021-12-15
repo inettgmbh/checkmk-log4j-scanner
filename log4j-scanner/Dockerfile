@@ -1,6 +1,6 @@
 FROM ghcr.io/graalvm/graalvm-ce:latest
 
-RUN microdnf install -y apache-maven
+RUN microdnf --enablerepo ol8_codeready_builder install maven
 
 ARG USER_ID
 ARG GROUP_ID
