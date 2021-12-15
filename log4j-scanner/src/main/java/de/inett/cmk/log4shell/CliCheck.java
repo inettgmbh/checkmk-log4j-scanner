@@ -16,7 +16,7 @@ public class CliCheck {
                 n_args = args;
                 break;
         }
-        System.out.println("<<<log4j-scanner>>>");
+        System.out.println("<<<log4j_scanner>>>");
         Log4j2Scanner.main(n_args);
     }
 }
