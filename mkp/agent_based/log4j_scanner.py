@@ -12,7 +12,6 @@ from .agent_based_api.v1 import (
     State,
     Result,
 )
-from .utils import df
 import re
 
 proxmox_bs_subsection_start = re.compile("^===")
@@ -33,13 +32,11 @@ def log4j_scanner_checks(params, section):
     t_state = (State.OK if (i == 0) else State.CRIT)
     yield Result(state=t_state, summary=("%d vulnerabilities found" % i))
 
+
 register.check_plugin(
     name="log4j_scanner",
-    service_name="PBS Datastore %s",
     sections=["log4j_scanner"],
     discovery_function=log4j_scanner_discovery,
     check_function=log4j_scanner_checks,
-    check_default_parameters=df.FILESYSTEM_DEFAULT_LEVELS,
-    check_ruleset_name="filesystem",
 )
 
