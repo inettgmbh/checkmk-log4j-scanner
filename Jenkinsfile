@@ -33,7 +33,7 @@ node {
                 dir('log4j-scanner/target') {
                     archiveArtifacts artifacts: '*.jar', fingerprint: true
                     archiveArtifacts artifacts: 'log4j_scanner', fingerprint: true
-                    stash includes: 'log4j_scanner', 'log4j_scanner'
+                    stash includes: 'log4j_scanner', name: 'log4j_scanner'
                 }
             }
         }
