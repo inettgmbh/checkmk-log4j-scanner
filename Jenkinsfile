@@ -11,6 +11,10 @@ properties([
 node {
     def PYTHON_MKP_REPO = "git+https://github.com/inettgmbh/python-mkp.git@0.6"
 
+    stage('build info') {
+        sh "echo BRANCH_NAME=${env.BRANCH_NAME}"
+    }
+
     stage('build log4j-scanner') {
         git url: 'https://github.com/inettgmbh/checkmk-log4j-scanner.git'
             branch: "${env.BRANCH_NAME}"
