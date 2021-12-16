@@ -19,13 +19,13 @@ def log4j_scanner_discovery(section):
 
 
 def log4j_scanner_checks(section):
-    i = 0
-    for l in section:
-        if l[0] == "[*]":
-            i += 1
-            yield Result(state=State.CRIT, summary=(' '.join(l[2:])))
-    t_state = (State.OK if (i == 0) else State.CRIT)
-    yield Result(state=t_state, summary=("%d vulnerabilities found" % i))
+    n = 0
+    for line in section:
+        if line[0] == "[*]":
+            n = (n + 1)
+            yield Result(state=State.CRIT, summary=(' '.join(line[2:])))
+    t_state = (State.OK if (n == 0) else State.CRIT)
+    yield Result(state=t_state, summary=("%d vulnerabilities found" % n))
 
 
 register.agent_section(
