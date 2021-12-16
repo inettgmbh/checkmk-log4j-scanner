@@ -23,7 +23,7 @@ def get_log4j_scanner_files(conf: Dict[str, Any]) -> FileGenerator:
         yield Plugin(
             base_os=OS.LINUX,
             source=Path("log4j_scanner"),
-            interval=86400,
+            interval=3600,
       )
 
 
