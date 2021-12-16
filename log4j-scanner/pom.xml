@@ -49,23 +49,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.graalvm.nativeimage</groupId>
-                <artifactId>native-image-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>native-image</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <skip>false</skip>
-                    <imageName>log4j_scanner</imageName>
-                    <buildArgs>--no-fallback -H:-CheckToolchain</buildArgs>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 

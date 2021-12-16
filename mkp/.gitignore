@@ -1,2 +1,4 @@
 *.mkp
 *.tgz
+*.tar.gz
+agents/plugins/log4j_scanner
