@@ -14,10 +14,14 @@ from cmk.gui.plugins.wato import (
 from cmk.gui.valuespec import (
     Alternative,
     FixedValue,
-)import cmk.utils.version as cmk_version
+)
+from cmk.utils.version import (
+    is_enterprise_edition,
+    is_managed_edition,
+)
 
 
-if cmk_version.is_enterprise_version() or cmk_version.is_managed_version():
+if is_managed_edition() or is_enterprise_edition():
     from cmk.gui.cee.plugins.wato.agent_bakery.rulespecs.utils import (
         RulespecGroupMonitoringAgentsAgentPlugins
     )
