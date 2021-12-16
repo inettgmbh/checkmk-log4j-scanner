@@ -51,8 +51,11 @@ node {
                     branch: "${env.BRANCH_NAME}"
                 dir('mkp') {
                     sh 'chmod +x build/mkp-pack build/update-version'
-                    def containsTag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+                    def lastTag = sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+                    def longTagCommit = sh(returnStdout: true, script: "git rev-list -n 1 ${lastTag}").trim()
+
                     def shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+                    def longCommit = sh(returnStdout: true, script: "git rev-list -n 1 HEAD").trim()
 
                     sh 'mkdir -pv agents/plugins'
                     dir('agents/plugins') {
@@ -61,9 +64,13 @@ node {
 
                     def releaseVersion
                     if (containsTag != "") {
-                        releaseVersion = containsTag
+                        if (longCommit == longTagCommit) {
+                            releaseVersion = containsTag + "+" + shortCommit
+                        } else {
+                            releaseVersion = containsTag
+                        }
                     } else {
-                        releaseVersion = shortCommit
+                         releaseVersion = shortCommit
                     }
                     withEnv(["RELEASE_VERSION=${releaseVersion}"]) {
                         sh 'build/update-version ${RELEASE_VERSION}'
