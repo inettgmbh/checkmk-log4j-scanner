@@ -17,6 +17,13 @@ public class CliCheck {
                 break;
         }
         System.out.println("<<<log4j_scanner>>>");
-        Log4j2Scanner.main(n_args);
+        try {
+            Log4j2Scanner scanner = new Log4j2Scanner();
+            scanner.run(n_args);
+            System.exit(0);
+        } catch (Throwable t) {
+            System.out.println("Error: " + t.getMessage());
+            System.exit(-1);
+        }
     }
 }
