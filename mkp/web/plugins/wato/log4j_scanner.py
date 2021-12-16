@@ -31,7 +31,11 @@ if is_managed_edition() or is_enterprise_edition():
             title=_("log4j CVE-2021-44228 (Linux)"),
             help=_(
                 "scan for CVE-2021-44228 (<tt>log4j_scanner</tt>)<br/>"
-                "<b>This plugin may result in massive agent outputs</b>"
+                "<b>This extension package uses <a "
+                "href=\"https://github.com/logpresso/CVE-2021-44228-Scanner"
+                "\">logpresso/CVE-2021-44228-Scanner</a> (<a "
+                "href=\"https://github.com/logpresso/CVE-2021-44228-Scanner"
+                "/blob/main/LICENSE\">Apache License 2.0</a></b>)"
                 ),
             style='dropdown',
             elements=[
