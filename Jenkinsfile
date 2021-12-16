@@ -33,7 +33,6 @@ node {
                 }
                 dir('log4j-scanner/target') {
                     archiveArtifacts artifacts: '*.jar', fingerprint: true
-                    sh "native-image -jar log4j-scanner-1.7.0-jar-with-dependencies.jar log4j_scanner -H:-CheckToolchain"
                     archiveArtifacts artifacts: 'log4j_scanner', fingerprint: true
                     stash includes: 'log4j_scanner', name: 'log4j_scanner'
                 }

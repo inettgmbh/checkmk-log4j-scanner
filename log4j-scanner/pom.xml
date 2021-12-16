@@ -50,11 +50,20 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.graalvm.nativeimage</groupId>
+                <artifactId>native-image-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>native-image</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <skip>false</skip>
+                    <imageName>log4j_scanner</imageName>
+                    <buildArgs>--no-fallback -H:-CheckToolchain</buildArgs>
                 </configuration>
             </plugin>
         </plugins>
