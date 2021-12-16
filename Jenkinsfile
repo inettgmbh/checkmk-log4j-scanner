@@ -63,14 +63,14 @@ node {
                     }
 
                     def releaseVersion
-                    if (containsTag != "") {
-                        if (longCommit == longTagCommit) {
-                            releaseVersion = containsTag + "+" + shortCommit
-                        } else {
-                            releaseVersion = containsTag
-                        }
+                    if (lastTag == "") {
+                        releaseVersion = shortCommit
                     } else {
-                         releaseVersion = shortCommit
+                        if (longCommit == longTagCommit) {
+                            releaseVersion = lastTag
+                        } else {
+                            releaseVersion = lastTag + "+" + shortCommit
+                        }
                     }
                     sh "build/update-version ${releaseVersion}"
                     sh 'build/mkp-pack'
