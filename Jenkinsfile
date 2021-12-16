@@ -41,7 +41,7 @@ node {
 
         stage('package mkp') {
             t_di_2 = docker.build(
-                "log4j-scanner-build:${env.BRANCH_NAME}-${env.BUILD_ID}",
+                "log4j-scanner-build-mkp:${env.BRANCH_NAME}-${env.BUILD_ID}",
                 "--build-arg USER_ID=\$(id -u) --build-arg GROUP_ID=\$(id -g) " +
                 "--build-arg PYTHON_MKP_REPO=${PYTHON_MKP_REPO} " +
                 "mkp"
