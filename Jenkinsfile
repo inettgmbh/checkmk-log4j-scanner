@@ -72,9 +72,7 @@ node {
                     } else {
                          releaseVersion = shortCommit
                     }
-                    withEnv(["RELEASE_VERSION=${releaseVersion}"]) {
-                        sh 'build/update-version ${RELEASE_VERSION}'
-                    }
+                    sh "build/update-version ${releaseVersion}"
                     sh 'build/mkp-pack'
                     archiveArtifacts artifacts: '*.mkp', fingerprint: true
                 }
@@ -83,8 +81,12 @@ node {
     } finally {
         stage('Cleanup') {
             cleanWs()
-            if(t_di_1) sh 'docker container rm ${t_di_1.id}'
-            if(t_di_2) sh 'docker container rm ${t_di_2.id}'
+            if(t_di_1 && t_di_1.id) {
+                sh "docker rmi ${t_di_1.id}"
+            }
+            if(t_di_2 && t_di_2.id) {
+                sh "docker rmi ${t_di_2.id}"
+            }
         }
     }
 }
