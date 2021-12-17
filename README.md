@@ -1,4 +1,5 @@
-# [![(inett GmbH)](https://www.inett.de/assets/images/icons/inett.x50.jpg)](https://www.inett.de/it-loesungen/checkmk) check_mkExtension to check for log4j2 `CVE-2021-44228`
+[![(inett GmbH)](https://www.inett.de/assets/images/icons/inett.x50.jpg)](https://www.inett.de/it-loesungen/checkmk)
+# check_mk extension to check for log4j2 `CVE-2021-44228`
 
 This Plugin wraps around
 [logpresso/CVE-2021-44228-Scanner](https://github.com/logpresso/CVE-2021-44228-Scanner) 

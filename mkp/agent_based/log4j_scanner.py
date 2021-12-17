@@ -12,6 +12,7 @@ from .agent_based_api.v1 import (
     State,
     Result,
 )
+import collections
 
 
 def log4j_scanner_discovery(section):
@@ -19,13 +20,35 @@ def log4j_scanner_discovery(section):
 
 
 def log4j_scanner_checks(section):
-    n = 0
+    f, p = 0, 0
+    eld = False
+    lb = collections.deque(maxlen=6)
     for line in section:
+        if eld:
+            lb.append(line)
+        if len(line) == 0:
+            eld = True
+            continue
         if line[0] == "[*]":
-            n = (n + 1)
+            f = (f + 1)
             yield Result(state=State.CRIT, summary=(' '.join(line[2:])))
-    t_state = (State.OK if (n == 0) else State.CRIT)
-    yield Result(state=t_state, summary=("%d vulnerabilities found" % n))
+        elif line[0] == "[?]":
+            p = (p + 1)
+        yield Result(
+            state=State.CRIT,
+            summary=("potential %s" % ' '.join(line[2:]))
+        )
+    for line in lb:
+        if len(line) == 6 and line[0] == "Scanned" and line[2] == \
+                "directories" and line[5] == "files":
+            yield Result
+    f_state = (State.OK if (f == 0) else State.CRIT)
+    yield Result(state=f_state, summary=("%d vulnerabilities found" % f))
+    p_state = (State.OK if (p == 0) else State.CRIT)
+    yield Result(
+        state=p_state,
+        summary=("%d potential vulnerabilities found" % p),
+    )
 
 
 register.agent_section(
