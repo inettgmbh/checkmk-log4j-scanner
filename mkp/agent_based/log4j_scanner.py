@@ -34,10 +34,10 @@ def log4j_scanner_checks(section):
             yield Result(state=State.CRIT, summary=(' '.join(line[2:])))
         elif line[0] == "[?]":
             p = (p + 1)
-        yield Result(
-            state=State.CRIT,
-            summary=("potential %s" % ' '.join(line[2:]))
-        )
+            yield Result(
+                state=State.CRIT,
+                summary=("potential %s" % ' '.join(line[2:]))
+            )
     for line in lb:
         if len(line) == 6 and line[0] == "Scanned" and line[2] == \
                 "directories" and line[5] == "files":
