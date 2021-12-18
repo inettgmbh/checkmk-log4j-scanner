@@ -60,14 +60,8 @@ node {
                 stash includes: 'log4j_scanner', name: 'log4j_scanner'
             }
         }
-        stage("Remove docker image log4j-scanner-build-scanner") {
-            if(t_di_1 && t_di_1.id) {
-                sh "docker rmi ${t_di_1.id}"
-                t_di_1 = null
-            }
-        }
     } )
-    parallel_dependencies.put("Container log4j-scanner-build-mkp", {
+    parallel_dependencies.put("mkp", {
         stage("Build docker container") { t_di_2 = docker.build(
             "log4j-scanner-build-mkp:${env.BRANCH_NAME}-${env.BUILD_ID}",
             "${DOCKER_BUILD_ARGS} --build-arg PYTHON_MKP_REPO=${PYTHON_MKP_REPO} " +
@@ -79,14 +73,16 @@ node {
         } }
     } )
 
-    parallel_list.add(parallel_dependencies)
-
-
-    try {
-        for (parallels in parallel_list) {
-            parallel(parallels)
+    parallel_build = [:]
+    parallel_build.put("log4j2-scanner", {
+        stage("Cleanup container image") {
+            if(t_di_1 && t_di_1.id) {
+                sh "docker rmi ${t_di_1.id}"
+                t_di_1 = null
+            }
         }
-
+    } )
+    parallel_build.put("mkp", {
         stage('Unstash scanner') {
             dir('mkp/agents/plugins') {
                 unstash 'log4j_scanner'
@@ -111,6 +107,15 @@ node {
                 t_di_2 = null
             }
         }
+    } )
+
+    parallel_list.add(parallel_dependencies)
+    parallel_list.add(parallel_build)
+
+
+    try {
+        parallel(parallel_dependencies)
+        parallel(parallel_build)
         stage("Cleanup") {
             cleanWs()
         }
