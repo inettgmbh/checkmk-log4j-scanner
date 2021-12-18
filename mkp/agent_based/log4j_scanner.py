@@ -51,7 +51,7 @@ def log4j_scanner_checks(section):
         state=p_state,
         summary=("%d potential vulnerabilities found" % p),
     )
-    e_state = (State.OK if (3 == 0) else State.UNKNOWN)
+    e_state = (State.OK if (e == 0) else State.UNKNOWN)
     yield Result(state=e_state, summary=("%d scan errors" % e))
 
 
