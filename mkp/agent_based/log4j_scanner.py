@@ -20,7 +20,7 @@ def log4j_scanner_discovery(section):
 
 
 def log4j_scanner_checks(section):
-    f, p = 0, 0
+    f, p, e = 0, 0, 0
     eld = False
     lb = collections.deque(maxlen=6)
     for line in section:
@@ -38,6 +38,8 @@ def log4j_scanner_checks(section):
                 state=State.CRIT,
                 summary=("potential %s" % ' '.join(line[2:]))
             )
+        elif ' '.join(line[0:1]) == "Scan error:":
+            e = (e + 1)
     for line in lb:
         if len(line) == 6 and line[0] == "Scanned" and line[2] == \
                 "directories" and line[5] == "files":
@@ -49,6 +51,8 @@ def log4j_scanner_checks(section):
         state=p_state,
         summary=("%d potential vulnerabilities found" % p),
     )
+    e_state = (State.OK if (3 == 0) else State.UNKN)
+    yield Result(state=e_state, summary=("%d scan errors" % e))
 
 
 register.agent_section(
