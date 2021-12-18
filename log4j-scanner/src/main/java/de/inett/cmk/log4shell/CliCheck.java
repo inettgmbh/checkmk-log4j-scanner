@@ -27,10 +27,9 @@ public class CliCheck {
         try {
             Log4j2Scanner scanner = new Log4j2Scanner();
             scanner.run(n_args);
-            System.exit(0);
         } catch (Throwable t) {
             System.out.println("Error: " + t.getMessage());
-            System.exit(-1);
         }
+        System.exit(0);
     }
 }
