@@ -46,7 +46,7 @@ def log4j_scanner_checks(section):
             yield Result
     f_state = (State.OK if (f == 0) else State.CRIT)
     yield Result(state=f_state, summary=("%d vulnerabilities found" % f))
-    p_state = (State.OK if (p == 0) else State.CRIT)
+    p_state = (State.OK if (p == 0) else State.WARN)
     yield Result(
         state=p_state,
         summary=("%d potential vulnerabilities found" % p),
