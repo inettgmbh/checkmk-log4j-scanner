@@ -64,7 +64,7 @@ node {
 
                     def releaseVersion
 
-                    if (thisCommitTag != null) {
+                    if (thisCommitTag != null && thisCommitTag != "") {
                         releaseVersion = thisCommitTag
                     } else {
                         releaseVersion = env.BRANCH_NAME+"-"+env.BUILD_ID
