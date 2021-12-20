@@ -4,13 +4,11 @@ import com.logpresso.scanner.Configuration;
 import com.logpresso.scanner.Log4j2Scanner;
 import com.logpresso.scanner.Metrics;
 
+import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CliCheck extends Log4j2Scanner {
-
-    Configuration config;
-    Metrics metrics;
 
     public static void main(String[] args) {
         System.out.println("<<<log4j_scanner>>>");
@@ -24,13 +22,22 @@ public class CliCheck extends Log4j2Scanner {
         System.exit(0);
     }
 
+    /**
+     * This is a hack, don't change
+     */
     @Override
     public void run(String[] args) throws Exception {
-        config = Configuration.parseArguments(args);
-		metrics = new Metrics();
+        Field config = Log4j2Scanner.class.getDeclaredField("config");
+        config.setAccessible(true);
+        config.set(this, Configuration.parseArguments(args));
+
+        Field metrics = Log4j2Scanner.class.getDeclaredField("metrics");
+        metrics.setAccessible(true);
+        metrics.set(this, new Metrics());
 
         run();
     }
+
     private static String[] prepareArguments(String[] cargs) {
         String[] ret;
         switch (cargs.length) {
@@ -61,4 +68,5 @@ public class CliCheck extends Log4j2Scanner {
         }
         return ret;
     }
+
 }
