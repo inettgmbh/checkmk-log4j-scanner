@@ -6,7 +6,7 @@
 
     <groupId>de.inett</groupId>
     <artifactId>log4j-scanner</artifactId>
-    <version>${project.version}</version>
+    <version>2.4.1</version>
     <packaging>jar</packaging>
     <name>CMK wrapper for Logpresso Log4j2 Scanner</name>
 
@@ -17,7 +17,6 @@
     </licenses>
 
     <properties>
-        <project.version>2.3.7</project.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -26,6 +25,11 @@
 
     <build>
         <plugins>
+            <!--
+            This plugin doesn't really do anything.
+            It's just here so `com.logpress.log4j2-scanner`
+            can be resolved correctly by IDEs.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -49,6 +53,7 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
@@ -110,11 +115,6 @@
 
     <dependencies>
         <dependency>
-            <!-- set maven repository once available
-            <groupId>com.logpresso</groupId>
-	        <artifactId>log4j2-scanner</artifactId>
-	        <version>${project.version}</version>
-            -->
             <groupId>com.github.logpresso</groupId>
             <artifactId>CVE-2021-44228-Scanner</artifactId>
             <version>${project.version}</version>
