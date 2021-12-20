@@ -13,7 +13,7 @@ public class CliCheck {
             switch (cargs.length) {
                 case 0:
                     n_args = new String[]{
-                            "--scan-log4j1", "--scan-logback", "/"
+                            "--scan-zip", "--scan-logback", "/"
                     };
                     break;
                 case 1:
@@ -23,11 +23,11 @@ public class CliCheck {
                     break;
                 default:
                     List<String> t_args = new LinkedList<>();
-                    t_args.add("--scan-log4j1");
+                    t_args.add("--scan-zip");
                     t_args.add("--scan-logback");
                     for (String arg : cargs) {
                         if ( ! (
-                                arg.equals("--scan-log4j1")
+                                arg.equals("--scan-zip")
                                 || arg.equals("--scan-logback")
                         )) {
                             t_args.add(arg);
