@@ -6,8 +6,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CliCheck {
+    private static SecurityManager sm_orig;
+    private static SecurityManager sm_new = new TrapExitSecurityManager();
+
     public static void main(String[] cargs) {
         System.out.println("<<<log4j_scanner>>>");
+
+        // Don't quit on System.exit()
+        sm_orig = System.getSecurityManager();
+        System.setSecurityManager(sm_new);
+
         String[] n_args;
         try {
             switch (cargs.length) {
@@ -41,6 +49,10 @@ public class CliCheck {
         } catch (Throwable t) {
             System.out.println("Error: " + t.getMessage());
         }
+
+        // Now quit on System.exit(int)
+        System.setSecurityManager(sm_orig);
+
         System.exit(0);
     }
 }
