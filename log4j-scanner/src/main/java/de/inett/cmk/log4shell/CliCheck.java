@@ -35,7 +35,7 @@ public class CliCheck extends Log4j2Scanner {
         metrics.setAccessible(true);
         metrics.set(this, new Metrics());
 
-        run();
+        scanAndFix();
     }
 
     private static String[] prepareArguments(String[] cargs) {
@@ -54,10 +54,12 @@ public class CliCheck extends Log4j2Scanner {
             default:
                 List<String> t_args = new LinkedList<>();
                 t_args.add("--scan-zip");
+                t_args.add("--scan-log4j1");
                 t_args.add("--scan-logback");
                 for (String arg : cargs) {
                     if ( ! (
                             arg.equals("--scan-zip")
+                                    || arg.equals("--scan-log4j1")
                                     || arg.equals("--scan-logback")
                     )) {
                         t_args.add(arg);

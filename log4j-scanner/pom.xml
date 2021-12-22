@@ -6,7 +6,7 @@
 
     <groupId>de.inett</groupId>
     <artifactId>log4j-scanner</artifactId>
-    <version>2.4.1</version>
+    <version>2.5.3</version>
     <packaging>jar</packaging>
     <name>CMK wrapper for Logpresso Log4j2 Scanner</name>
 
@@ -117,7 +117,7 @@
         <dependency>
             <groupId>com.github.logpresso</groupId>
             <artifactId>CVE-2021-44228-Scanner</artifactId>
-            <version>${project.version}</version>
+            <version>2.5.3</version>
         </dependency>
     </dependencies>
 
