@@ -26,7 +26,7 @@ public class CliCheck extends Log4j2Scanner {
      * This is a hack, don't change
      */
     @Override
-    public void run(String[] args) throws Exception {
+    public int run(String[] args) throws Exception {
         Field config = Log4j2Scanner.class.getDeclaredField("config");
         config.setAccessible(true);
         config.set(this, Configuration.parseArguments(args));
@@ -35,7 +35,7 @@ public class CliCheck extends Log4j2Scanner {
         metrics.setAccessible(true);
         metrics.set(this, new Metrics());
 
-        scanAndFix();
+        return scanAndFix();
     }
 
     private static String[] prepareArguments(String[] cargs) {
