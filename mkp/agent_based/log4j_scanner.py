@@ -27,6 +27,7 @@ def log4j_scanner_discovery(section):
         yield {"cve": "CVE-2021-45105", "product": "log4j 2.16.0"}
         yield {"cve": "CVE-2021-4104", "product": "log4j 1.x"}
         yield {"cve": "CVE-2021-42550", "product": "logback 0.9-1.2.7"}
+        yield {"cve": "CVE-2021-44832", "product": "log4j 2"}
 
     for vuln in vulns():
         yield Service(
