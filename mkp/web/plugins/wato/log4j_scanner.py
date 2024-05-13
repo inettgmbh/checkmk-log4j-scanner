@@ -15,13 +15,15 @@ from cmk.gui.valuespec import (
     Alternative,
     FixedValue,
 )
-from cmk.utils.version import (
-    is_enterprise_edition,
-    is_managed_edition,
-)
 
 
-if is_managed_edition() or is_enterprise_edition():
+try:
+    from cmk.utils.version import (
+        is_enterprise_edition,
+        is_managed_edition,
+    )
+
+
     from cmk.gui.cee.plugins.wato.agent_bakery.rulespecs.utils import (
         RulespecGroupMonitoringAgentsAgentPlugins
     )
@@ -59,3 +61,6 @@ if is_managed_edition() or is_enterprise_edition():
             name="agent_config:log4j_scanner",
             valuespec=_valuespec_agent_config_log4j_scanner,
         ))
+
+except:
+    pass
